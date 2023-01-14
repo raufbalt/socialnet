@@ -52,5 +52,6 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     #main
     path('api/v1/', include(router.urls)),
-    path('api/v1/accounts/', include('account.urls'))
+    path('api/v1/accounts/', include('account.urls')),
+    path('api/v1/', include('fanfic.urls'))
 ]
