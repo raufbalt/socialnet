@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-from requests import Response
 from rest_framework import permissions, response
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView

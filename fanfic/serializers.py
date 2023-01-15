@@ -21,13 +21,17 @@ class FanficSerializer(serializers.ModelSerializer):
         rep = super().to_representation(instance)
         try:
             rep['likes'] = instance.likes.all().count()
-            rep['page'] = instance.page.all().values()
-            rep['commentaries'] = instance.comments.all().values()
-            return rep
         except AttributeError:
             rep['likes'] = 0
+        try:
+            rep['page'] = instance.page.all().values()
+        except AttributeError:
             rep['page'] = 'none'
-            rep['commentaries'] = 'Нет здесь нихуя'
+        try:
+            rep['commentaries'] = instance.comments.all().values()
+        except AttributeError:
+            rep['commentaries'] = 'Нет комментариев к публикации'
+            return rep
         return rep
 
 class FanficPageSerializer(serializers.ModelSerializer):
