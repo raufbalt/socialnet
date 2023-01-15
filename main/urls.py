@@ -48,10 +48,10 @@ urlpatterns = [
     path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('admin/', admin.site.urls),
     #JWT TOKEN
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/v1/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     #main
     path('api/v1/', include(router.urls)),
     path('api/v1/accounts/', include('account.urls')),
-    path('api/v1/', include('fanfic.urls'))
+    path('', include('fanfic.urls'))
 ]
