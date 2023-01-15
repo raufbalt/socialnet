@@ -34,4 +34,5 @@ class Fanfic(models.Model):
 class FanficPage(models.Model):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     fanfic = models.ForeignKey(Fanfic, on_delete=models.CASCADE, related_name='page')
+    chapter = models.CharField(max_length=20, blank=True, default='Глава')
     text = models.CharField(max_length=1000, null=True)

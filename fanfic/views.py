@@ -54,6 +54,7 @@ class FanficViewSet(ModelViewSet):
             genre = genre1,
 	        description = self.request.data.get("description", None),
             image = self.request.data.get("image", None),
+            chapter = self.request.data.get("Chapter", None),
             date_created = clock()
 )
 
