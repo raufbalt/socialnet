@@ -22,10 +22,12 @@ class FanficSerializer(serializers.ModelSerializer):
         try:
             rep['likes'] = instance.likes.all().count()
             rep['page'] = instance.page.all().values()
+            rep['commentaries'] = instance.comments.all().values()
             return rep
         except AttributeError:
             rep['likes'] = 0
             rep['page'] = 'none'
+            rep['commentaries'] = 'Нет здесь нихуя'
         return rep
 
 class FanficPageSerializer(serializers.ModelSerializer):

@@ -10,7 +10,18 @@ from fanfic.permissions import IsOwner
 from fanfic.serializers import FanficGenresSerializer, FanficSerializer, FanficPageSerializer
 
 from likes.serializers import FanficLikeSerializer
-from likes.models import FanficLike
+from comment.serializers import FanficCommentSerializer
+
+import datetime
+def clock():
+    time = datetime.datetime.now()
+    day = time.strftime("%d")
+    month = time.strftime("%m")
+    year = time.strftime("%Y")
+    current_time = time.strftime("%H:%M")
+    date = day+"-"+month+"-"+year+" "+current_time
+    return date
+
 
 
 class FanficGenresListAPIView(ListAPIView):
@@ -43,7 +54,8 @@ class FanficViewSet(ModelViewSet):
             title = self.request.data.get("title", None),
             genre = genre1,
 	        description = self.request.data.get("description", None),
-            image = self.request.data.get("image", None)
+            image = self.request.data.get("image", None),
+            date_created = clock()
 )
 
     @action(['GET', 'POST'], detail=True)
@@ -76,5 +88,19 @@ class FanficViewSet(ModelViewSet):
             delete_likes.delete()
             return response.Response(serializer.data, status=204)
 
-
-
+    @action(['POST', 'DELETE'], detail=True)
+    def comment(self, request, pk):
+        fanfic = self.get_object()
+        commentaries = fanfic.comments.all()
+        data = request.data
+        serializer = FanficCommentSerializer(data=data)
+        if request.method == 'POST':
+            serializer.is_valid(raise_exception=True)
+            serializer.save(fanfic=fanfic, owner=self.request.user, text=self.request.data.get('text', None), date_created=clock())
+            return response.Response(serializer.data, status=201)
+        if request.method == 'DELETE':
+            delete_owner = self.request.user
+            delete_comment = commentaries.filter(owner=delete_owner)
+            serializer.is_valid(raise_exception=True)
+            delete_comment.delete()
+            return response.Response(serializer.data, status=204)

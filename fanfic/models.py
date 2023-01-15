@@ -26,7 +26,7 @@ class Fanfic(models.Model):
     image = models.FileField(upload_to='media/', blank=True, null=True, validators=[FileExtensionValidator('jpg')])
     description = models.CharField(max_length=255, blank=True, default='there is not any description')
     genre = models.ForeignKey(FanficGenres, blank=True, default='Other', on_delete=models.SET_DEFAULT)
-
+    date_created = models.CharField(max_length=25, null=True, blank=True)
     def __str__(self):
         return self.title
 
