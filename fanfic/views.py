@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from requests import Response
 from rest_framework import permissions, response
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView
@@ -7,6 +8,9 @@ from rest_framework.viewsets import ModelViewSet
 from fanfic.models import FanficGenres, Fanfic
 from fanfic.permissions import IsOwner
 from fanfic.serializers import FanficGenresSerializer, FanficSerializer, FanficPageSerializer
+
+from likes.serializers import FanficLikeSerializer
+from likes.models import FanficLike
 
 
 class FanficGenresListAPIView(ListAPIView):
@@ -19,7 +23,6 @@ class FanficGenresListAPIView(ListAPIView):
 class FanficViewSet(ModelViewSet):
     serializer_class = FanficSerializer
     queryset = Fanfic.objects.all()
-    # authentication_classes = []
 
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'delete'):
@@ -55,5 +58,23 @@ class FanficViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(fanfic=fanfic, text=self.request.data.get('text', None), owner=self.request.user)
         return response.Response(serializer.data, status=201)
+
+    @action(['POST', 'DELETE'], detail=True)
+    def likes(self, request, pk):
+        fanfic = self.get_object()
+        likes = fanfic.likes.all()
+        data = request.data
+        serializer = FanficLikeSerializer(data=data)
+        if request.method == 'POST':
+            serializer.is_valid(raise_exception=True)
+            serializer.save(fanfic=fanfic, owner=self.request.user)
+            return response.Response(serializer.data, status=201)
+        if request.method == 'DELETE':
+            delete_owner = self.request.user
+            delete_likes = likes.filter(owner=delete_owner)
+            serializer.is_valid(raise_exception=True)
+            delete_likes.delete()
+            return response.Response(serializer.data, status=204)
+
 
 

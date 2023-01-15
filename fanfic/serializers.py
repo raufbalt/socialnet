@@ -20,9 +20,11 @@ class FanficSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         try:
+            rep['likes'] = instance.likes.all().count()
             rep['page'] = instance.page.all().values()
             return rep
         except AttributeError:
+            rep['likes'] = 0
             rep['page'] = 'none'
         return rep
 

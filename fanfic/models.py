@@ -27,6 +27,9 @@ class Fanfic(models.Model):
     description = models.CharField(max_length=255, blank=True, default='there is not any description')
     genre = models.ForeignKey(FanficGenres, blank=True, default='Other', on_delete=models.SET_DEFAULT)
 
+    def __str__(self):
+        return self.title
+
 
 class FanficPage(models.Model):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     #my_apps
     'account',
     'fanfic',
+    'likes',
 ]
 
 MIDDLEWARE = [
