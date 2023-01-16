@@ -54,7 +54,6 @@ class FanficViewSet(ModelViewSet):
             genre = genre1,
 	        description = self.request.data.get("description", None),
             image = self.request.data.get("image", None),
-            chapter = self.request.data.get("Chapter", None),
             date_created = clock()
 )
 
@@ -68,7 +67,7 @@ class FanficViewSet(ModelViewSet):
         data = request.data
         serializer = FanficPageSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(fanfic=fanfic, text=self.request.data.get('text', None), owner=self.request.user)
+        serializer.save(fanfic=fanfic, text=self.request.data.get('text', None), owner=self.request.user, chapter = self.request.data.get("Chapter", None),)
         return response.Response(serializer.data, status=201)
 
     @action(['POST', 'DELETE'], detail=True)
