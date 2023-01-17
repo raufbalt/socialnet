@@ -14,6 +14,10 @@ class AnimeSerializer(serializers.ModelSerializer):
             rep['seasons'] = instance.seasons.all().values()
         except AttributeError:
             rep['seasons'] = 0
+        try:
+            rep['likes'] = instance.likes.all().count()
+        except AttributeError:
+            rep['likes'] = 0
         return rep
 
 

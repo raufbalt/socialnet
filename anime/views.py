@@ -4,6 +4,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 
+from likes.serializers import AnimeLikeSerializer
 from .models import Anime, AnimeSeason, Episode, AnimeGenres
 from .serializers import AnimeSerializer, EpisodeSerializer, SeasonSerializer
 
@@ -40,6 +41,23 @@ class AnimeViewSet(ModelViewSet):
         serializer.save(own_anime=anime, slug=self.request.data.get('slug', None),
                         title=self.request.data.get("title", None), )
         return response.Response(serializer.data, status=201)
+
+    @action(['POST', 'DELETE'], detail=True)
+    def likes(self, request, pk):
+        anime = self.get_object()
+        likes = anime.likes.all()
+        data = request.data
+        serializer = AnimeLikeSerializer(data=data)
+        if request.method == 'POST':
+            serializer.is_valid(raise_exception=True)
+            serializer.save(anime=anime, owner=self.request.user)
+            return response.Response(serializer.data, status=201)
+        if request.method == 'DELETE':
+            delete_owner = self.request.user
+            delete_likes = likes.filter(owner=delete_owner)
+            serializer.is_valid(raise_exception=True)
+            delete_likes.delete()
+            return response.Response(serializer.data, status=204)
 
 
 class EpisodeViewSet(ModelViewSet):
