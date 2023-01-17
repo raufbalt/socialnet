@@ -42,7 +42,6 @@ class FanficViewSet(ModelViewSet):
         return [permissions.IsAuthenticatedOrReadOnly()]
 
     def perform_create(self, serializer):
-        data = self.request.data
 
         genre = self.request.data.get('genre', None)
         genre1 = get_object_or_404(FanficGenres, slug=genre)

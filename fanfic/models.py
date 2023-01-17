@@ -23,7 +23,7 @@ class Fanfic(models.Model):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     title = models.CharField(max_length=30, unique=True)
-    image = models.FileField(upload_to='media/', blank=True, null=True, validators=[FileExtensionValidator('jpg')])
+    image = models.FileField(upload_to='media/', blank=True, null=True, validators=[FileExtensionValidator(['jpg'])])
     description = models.CharField(max_length=255, blank=True, default='there is not any description')
     genre = models.ForeignKey(FanficGenres, blank=True, default='Other', on_delete=models.SET_DEFAULT)
     date_created = models.CharField(max_length=25, null=True, blank=True)

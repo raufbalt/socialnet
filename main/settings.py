@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'fanfic',
     'likes',
     'comment',
+    'anime',
 ]
 
 MIDDLEWARE = [
