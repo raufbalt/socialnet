@@ -49,6 +49,8 @@ class AnimeViewSet(ModelViewSet):
         data = request.data
         serializer = AnimeLikeSerializer(data=data)
         if request.method == 'POST':
+            if anime.likes.filter(owner=request.user).exists():
+                return response.Response('Вы уже поставили лайк', status=400)
             serializer.is_valid(raise_exception=True)
             serializer.save(anime=anime, owner=self.request.user)
             return response.Response(serializer.data, status=201)
