@@ -76,6 +76,8 @@ class FanficViewSet(ModelViewSet):
         data = request.data
         serializer = FanficLikeSerializer(data=data)
         if request.method == 'POST':
+            if fanfic.likes.filter(owner=request.user).exists():
+                return response.Response('Вы уже поставили лайк', status=400)
             serializer.is_valid(raise_exception=True)
             serializer.save(fanfic=fanfic, owner=self.request.user)
             return response.Response(serializer.data, status=201)
