@@ -28,6 +28,15 @@ class SeasonSerializer(serializers.ModelSerializer):
         model = AnimeSeason
         fields = "__all__"
 
+    def to_representation(self, instance):
+
+        rep = super().to_representation(instance)
+        try:
+            rep['episodes'] = instance.episodes.all().values()
+        except AttributeError:
+            rep['episodes'] = 0
+        return rep
+
 
 class EpisodeSerializer(serializers.ModelSerializer):
     season = serializers.ReadOnlyField(source='season.title')
