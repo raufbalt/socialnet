@@ -56,15 +56,23 @@ class FanficViewSet(ModelViewSet):
             date_created = clock()
 )
 
-    @action(['GET', 'POST'], detail=True)
+    @action(['GET', 'POST', 'DELETE'], detail=True)
     def pages(self, request, pk):
         fanfic = self.get_object()
+        data = request.data
+        serializer = FanficPageSerializer(data=data)
         if request.method == 'GET':
             pages = fanfic.page.all()
             serializer = FanficPageSerializer(pages, many=True)
             return response.Response(serializer.data, status=200)
-        data = request.data
-        serializer = FanficPageSerializer(data=data)
+        if request.method == 'DELETE':
+            pages = fanfic.page.all()
+            delete_id = self.request.data.get('id', None)
+            delete_pages = pages.filter(id=delete_id)
+            serializer.is_valid(raise_exception=True)
+            delete_pages.delete()
+            return response.Response(serializer.data, status=204)
+
         serializer.is_valid(raise_exception=True)
         serializer.save(fanfic=fanfic, text=self.request.data.get('text', None), owner=self.request.user, chapter = self.request.data.get("chapter", None),)
         return response.Response(serializer.data, status=201)
