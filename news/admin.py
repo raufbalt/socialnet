@@ -1,3 +1,4 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import News
+admin.site.register(News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)
