@@ -107,8 +107,8 @@ class FanficViewSet(ModelViewSet):
             serializer.save(fanfic=fanfic, owner=self.request.user, text=self.request.data.get('text', None), date_created=clock())
             return response.Response(serializer.data, status=201)
         if request.method == 'DELETE':
-            delete_owner = self.request.user
-            delete_comment = commentaries.filter(owner=delete_owner)
+            delete_id = self.request.data.get('id', None)
+            delete_comment = commentaries.filter(id=delete_id)
             serializer.is_valid(raise_exception=True)
             delete_comment.delete()
             return response.Response(serializer.data, status=204)
