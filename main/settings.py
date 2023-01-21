@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'comment',
     'anime',
     'manga',
+    'news',
 ]
 
 MIDDLEWARE = [
