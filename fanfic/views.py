@@ -66,7 +66,7 @@ class FanficViewSet(ModelViewSet):
         data = request.data
         serializer = FanficPageSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(fanfic=fanfic, text=self.request.data.get('text', None), owner=self.request.user, chapter = self.request.data.get("Chapter", None),)
+        serializer.save(fanfic=fanfic, text=self.request.data.get('text', None), owner=self.request.user, chapter = self.request.data.get("chapter", None),)
         return response.Response(serializer.data, status=201)
 
     @action(['POST', 'DELETE'], detail=True)
