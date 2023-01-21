@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from likes.models import FanficLike, AnimeLike
+from likes.models import FanficLike, AnimeLike, MangaLike
 
 
 class FanficLikeSerializer(serializers.ModelSerializer):
@@ -18,3 +18,14 @@ class AnimeLikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = AnimeLike
         fields = '__all__'
+
+
+class MangaLikeSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
+    manga = serializers.ReadOnlyField(source='manga.id')
+
+    class Meta:
+        model = MangaLike
+        fields = '__all__'
+
+

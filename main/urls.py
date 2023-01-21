@@ -56,6 +56,7 @@ urlpatterns = [
     path('api/v1/', include(router.urls)),
     path('api/v1/accounts/', include('account.urls')),
     path('', include('fanfic.urls')),
-    path('', include('anime.urls'))
+    path('', include('anime.urls')),
+    path('', include('manga.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

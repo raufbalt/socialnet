@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 
 from anime.models import Anime
 from fanfic.models import Fanfic
+from manga.models import Manga
 
 User = get_user_model()
 
@@ -21,3 +22,8 @@ class AnimeLike(models.Model):
 
     def __str__(self):
         return f'{self.owner} -> {self.fanfic}'
+
+
+class MangaLike(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    manga = models.ForeignKey(Manga, on_delete=models.CASCADE, related_name='likes')
