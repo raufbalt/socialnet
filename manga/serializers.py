@@ -8,7 +8,7 @@ class MangaGenresSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MangaGenres
-        fields = ['slug']
+        fields = ['slug', 'title']
 
 
 class MangaVolumeSerializer(serializers.ModelSerializer):
