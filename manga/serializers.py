@@ -1,7 +1,11 @@
 from rest_framework import serializers
 
-from .models import Manga, MangaVolume, MangaGenres, Chapter
+from .models import Manga, MangaVolume, MangaGenres, Chapter, MangaImages
 
+class MangaImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MangaImages
+        exclude = ('id', 'title')
 
 class MangaGenresSerializer(serializers.ModelSerializer):
     slug = serializers.ReadOnlyField()
@@ -46,8 +50,10 @@ class MangaSerializer(serializers.ModelSerializer):
             rep['volumes'] = 'none'
         try:
             rep['commentaries'] = instance.comments.all().values()
+            rep['commentaries_count'] = instance.comments.all().count()
         except AttributeError:
             rep['commentaries'] = 'Нет комментариев к публикации'
+            rep['commentaries_count'] = 0
             return rep
         return rep
 
@@ -58,3 +64,12 @@ class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chapter
         fields = '__all__'
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        try:
+            rep['images'] = instance.images.all().values()
+        except AttributeError:
+            rep['images'] = 'null'
+            return rep
+        return rep

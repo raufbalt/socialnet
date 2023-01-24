@@ -29,8 +29,10 @@ class FanficSerializer(serializers.ModelSerializer):
             rep['page'] = 'none'
         try:
             rep['commentaries'] = instance.comments.all().values()
+            rep['commentaries_count'] = instance.comments.all().count()
         except AttributeError:
             rep['commentaries'] = 'Нет комментариев к публикации'
+            rep['commentaries_count'] = 0
             return rep
         return rep
 

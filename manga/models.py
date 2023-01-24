@@ -39,11 +39,25 @@ class MangaVolume(models.Model):
 
 class Chapter(models.Model):
     title = models.CharField(max_length=30)
-    image = models.ImageField(upload_to='media/', blank=True, null=True)
     volume = models.ForeignKey(MangaVolume, on_delete=models.CASCADE, related_name='chapters')
 
     def __str__(self):
         return self.title
 
+
+class MangaImages(models.Model):
+    title = models.CharField(max_length=150, blank=True)
+    image = models.ImageField(upload_to='images/')
+    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE,
+                             related_name='images')
+
+    @staticmethod
+    def generate_name():
+        from random import randint
+        return 'image' + str(randint(100000, 1000000))
+
+    def save(self, *args, **kwargs):
+        self.title = self.generate_name()
+        return super(MangaImages, self).save(*args, **kwargs)
 
 
