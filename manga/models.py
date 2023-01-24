@@ -4,6 +4,7 @@ from django.utils.text import slugify
 class MangaGenres(models.Model):
     slug = models.SlugField(max_length=50, primary_key=True)
     name = models.CharField(max_length=30, unique=True)
+    title = models.CharField(max_length=15, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -15,6 +16,7 @@ class MangaGenres(models.Model):
 class Manga(models.Model):
     title = models.CharField(max_length=30)
     genre = models.ForeignKey(MangaGenres, on_delete=models.SET_NULL, null=True)
+    image = models.FileField(upload_to='media/', blank=True, null=True)
 
     def __str__(self):
         return self.title
