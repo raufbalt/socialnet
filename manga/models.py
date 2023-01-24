@@ -17,6 +17,7 @@ class Manga(models.Model):
     title = models.CharField(max_length=30)
     genre = models.ForeignKey(MangaGenres, on_delete=models.SET_NULL, null=True)
     image = models.FileField(upload_to='media/', blank=True, null=True)
+    desc = models.CharField(max_length=300, blank=True, default='Description')
 
     def __str__(self):
         return self.title
@@ -38,7 +39,7 @@ class MangaVolume(models.Model):
 
 class Chapter(models.Model):
     title = models.CharField(max_length=30)
-    image = models.FileField(upload_to='media/', blank=True, null=True)
+    image = models.ImageField(upload_to='media/', blank=True, null=True)
     volume = models.ForeignKey(MangaVolume, on_delete=models.CASCADE, related_name='chapters')
 
     def __str__(self):

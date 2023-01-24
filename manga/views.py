@@ -37,7 +37,8 @@ class MangaViewSet(ModelViewSet):
 
             title=data.get("title", None),
             genre=genre1,
-            image=data.get("image", None)
+            image=data.get("image", None),
+            desc=data.get("desc", None)
         )
 
     @action(['GET'], detail=True)
