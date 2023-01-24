@@ -7,6 +7,7 @@ User = get_user_model()
 class FanficComment(models.Model):
     fanfic = models.ForeignKey(Fanfic, on_delete=models.CASCADE, related_name='comments')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_username = models.CharField(blank=True, null=True, max_length=30)
     text = models.CharField(max_length=255)
     date_created = models.CharField(max_length=25, null=True, blank=True)
 
@@ -17,6 +18,7 @@ class FanficComment(models.Model):
 class MangaComment(models.Model):
     manga = models.ForeignKey(Manga, on_delete=models.CASCADE, related_name='comments')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner_username = models.CharField(blank=True, null=True, max_length=30)
     text = models.CharField(max_length=255)
     date_created = models.CharField(max_length=25, null=True, blank=True)
 
