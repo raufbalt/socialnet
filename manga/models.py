@@ -46,7 +46,7 @@ class Chapter(models.Model):
 
 
 class MangaImages(models.Model):
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='media/')
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE,
                              related_name='images')
 
