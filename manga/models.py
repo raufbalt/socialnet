@@ -54,14 +54,9 @@ class MangaImages(models.Model):
 
     url = models.CharField(max_length=300, blank=True)
 
-    @staticmethod
-    def generate_name():
-        from random import randint
-        return 'image' + str(randint(100000, 1000000))
-
     def save(self, *args, **kwargs):
         self.url = str(config('Url')) + str(self.image)
-        self.title = str(self.image)
+        self.title = self.title
         return super(MangaImages, self).save(*args, **kwargs)
 
 
