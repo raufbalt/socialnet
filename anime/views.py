@@ -25,7 +25,8 @@ class AnimeViewSet(ModelViewSet):
         Anime.objects.create(
 
             title=data.get("title", None),
-            genre=genre1
+            genre=genre1,
+            image=data.get("image", None)
         )
 
     @action(['GET', 'POST'], detail=True)

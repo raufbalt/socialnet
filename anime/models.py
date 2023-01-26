@@ -4,6 +4,7 @@ from django.utils.text import slugify
 
 
 class Anime(models.Model):
+    image = models.ImageField(upload_to='media', null=True)
     title = models.CharField(max_length=30, blank=True, unique=True)
     genre = models.ForeignKey('AnimeGenres', blank=True, default='Other', on_delete=models.SET_DEFAULT)
 
