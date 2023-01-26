@@ -5,8 +5,7 @@ from .models import Manga, MangaVolume, MangaGenres, Chapter, MangaImages
 class MangaImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = MangaImages
-        exclude = ('id', 'title')
-
+        fields = '__all__'
 class MangaGenresSerializer(serializers.ModelSerializer):
     slug = serializers.ReadOnlyField()
 
