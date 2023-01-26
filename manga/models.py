@@ -50,5 +50,8 @@ class MangaImages(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE,
                              related_name='images')
 
+    def __str__(self):
+        return self.chapter
+
 
 
