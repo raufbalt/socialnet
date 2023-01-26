@@ -46,12 +46,13 @@ class Chapter(models.Model):
 
 
 class MangaImages(models.Model):
+    title = models.CharField(default='image', max_length=15)
     image = models.ImageField(upload_to='media/')
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE,
                              related_name='images')
 
     def __str__(self):
-        return self.chapter
+        return self.title
 
 
 
