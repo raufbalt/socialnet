@@ -58,6 +58,7 @@ urlpatterns = [
     path('', include('fanfic.urls')),
     path('', include('anime.urls')),
     path('', include('manga.urls')),
-    path('', include('news.urls'))
+    path('', include('news.urls')),
+    path('', include('bio.urls'))
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
