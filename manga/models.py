@@ -45,14 +45,23 @@ class Chapter(models.Model):
         return self.title
 
 
+from decouple import config
 class MangaImages(models.Model):
-    title = models.CharField(default='image', max_length=15)
+    title = models.CharField(max_length=150, blank=True)
     image = models.ImageField(upload_to='media/')
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE,
                              related_name='images')
 
-    def __str__(self):
-        return self.title
+    url = models.CharField(max_length=300, blank=True)
 
+    @staticmethod
+    def generate_name():
+        from random import randint
+        return 'image' + str(randint(100000, 1000000))
+
+    def save(self, *args, **kwargs):
+        self.url = str(config('Url')) + str(self.image)
+        self.title = str(self.image)
+        return super(MangaImages, self).save(*args, **kwargs)
 
 
