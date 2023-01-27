@@ -1,3 +1,4 @@
+from decouple import config
 from django.shortcuts import render, get_object_or_404
 from rest_framework import permissions
 from rest_framework.generics import ListAPIView
@@ -78,7 +79,7 @@ class MangaViewSet(ModelViewSet):
         if request.method == 'POST':
             serializer.is_valid(raise_exception=True)
             serializer.save(manga=manga, owner=self.request.user, text=self.request.data.get('text', None),
-                            date_created=clock(), owner_username=self.request.user.username, owner_image=self.request.user.avatar)
+                            date_created=clock(), owner_username=self.request.user.username, owner_image=str(config('Url'))+str(self.request.user.avatar))
             return response.Response(serializer.data, status=201)
         if request.method == 'DELETE':
             delete_id = self.request.data.get('id', None)
