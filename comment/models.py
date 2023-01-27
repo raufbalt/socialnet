@@ -13,6 +13,7 @@ class FanficComment(models.Model):
     owner_username = models.CharField(blank=True, null=True, max_length=30)
     text = models.CharField(max_length=255, null=True, default='cool!')
 
+
     date_created = models.CharField(max_length=25, null=True, blank=True)
 
     def __str__(self):
