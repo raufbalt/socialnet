@@ -6,7 +6,7 @@ User = get_user_model()
 
 class Biography(models.Model):
     about_me = models.CharField(max_length=255, blank=True, default=' ')
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.owner)
