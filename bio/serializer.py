@@ -13,8 +13,10 @@ class BiographySerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
-        if instance.owner.username == 'rauf':
-            rep['status'] = 'Admin'
+        try:
+            if instance.owner.username == 'rauf':
+                rep['status'] = 'Admin'
+        except AttributeError:
+            rep['status'] = 'Basic user'
             return rep
-        rep['status'] = 'Basic user'
         return rep
