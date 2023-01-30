@@ -15,3 +15,13 @@ class BioViewSet(ModelViewSet):
         elif self.action == 'create':
             return [permissions.IsAuthenticated()]
         return [permissions.IsAuthenticatedOrReadOnly()]
+
+
+
+    def perform_create(self, serializer):
+
+        Biography.objects.create(
+
+            owner=self.request.user,
+            about_me=self.request.data.get("about_me", None)
+)
