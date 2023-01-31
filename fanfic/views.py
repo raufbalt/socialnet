@@ -12,6 +12,9 @@ from fanfic.serializers import FanficGenresSerializer, FanficSerializer, FanficP
 from likes.serializers import FanficLikeSerializer
 from comment.serializers import FanficCommentSerializer
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
+
 import datetime
 def clock():
     time = datetime.datetime.now()
@@ -34,6 +37,9 @@ class FanficGenresListAPIView(ListAPIView):
 class FanficViewSet(ModelViewSet):
     serializer_class = FanficSerializer
     queryset = Fanfic.objects.all()
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    filterset_fields = ('genre',)
+    search_fields = ('title',)
 
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'delete'):

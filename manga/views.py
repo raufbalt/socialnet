@@ -13,6 +13,9 @@ from rest_framework.decorators import action
 from rest_framework import permissions, response
 from fanfic.views import clock
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
+
 
 class MangaGenresListAPIView(ListAPIView):
     queryset = MangaGenres.objects.all()
@@ -23,6 +26,9 @@ class MangaGenresListAPIView(ListAPIView):
 class MangaViewSet(ModelViewSet):
     serializer_class = MangaSerializer
     queryset = Manga.objects.all()
+    filter_backends = (DjangoFilterBackend, SearchFilter)
+    filterset_fields = ('genre',)
+    search_fields = ('title',)
 
     def get_permissions(self):
         if self.action in ('update', 'partial_update', 'delete', 'create'):

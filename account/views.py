@@ -9,6 +9,7 @@ from rest_framework.generics import GenericAPIView
 from . import serializers
 
 class RegistrationView(APIView):
+    authentication_classes = []
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request):
